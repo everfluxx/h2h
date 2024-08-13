@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>h2h</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+</head>
+<body>
+<h1>h2h demo</h1>
+<h2>A simple JavaScript method for handling information on the URL fragment (hash)</h2>
+<p>This demo allows you to encode (HTML) information as URL fragment (hash) and then decode and display it by clicking on the provided link.<br>
+Information is compressed and base64-encoded using lz-string (useful for large texts).</p>
+<textarea id="input" rows="4" cols="50"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/M7ubXdtdb1xSFyeilBapySVU8h8OoFaooFSqiihIVIpQBKci6KEg9Q6H9kovIHoCIVQJJCKE1ENFjnAgcaSGC6rEnxBwA04Tx43t2FnvDAfjkNibxgHxnWb2e/u992bee7tCa00YFsffekFY+nUzFtjW0LrvjRXrCDIAaPLlW0nHL0SsZtVoaF98mLrx3pdhOqLtYPHChahZcYYO7KvPFxvRl5XPp1sN3adWiD1ZAqD6XYK1b/dvE5IWryTt2udLFedwc1+9kLp+vbbpoDh+6TklxBeAi9TL0taeWpdmZzQDry0AcO+jQ12RyohqqoYoo8RDwJrU+qXkjWtfi8Xxt58BdQuwQs9qC/afLwCw8tnQbqYAPsgxE1S6F3EAIXux2oQFKm0ihMsOF71dHYx+f3NND68ghCu1YIoePPQN1pGRABkJ6Bus96CutRZMydTl+TvuiRW1m3n0eDl0vRPcEysqdXn+jsQPsrHMquGeXEaY4Yk4wxWcY5V/9scqOMOVUFthatyTy8QyqwZ+kDURKoMWxNKr2EeqVKcTNOajqKoBgOE28U4tdQl5p5bwCw7BWquaZSzAPlwjlithJtp3pTImSqQRrb2Z8PHGigD4RZuNX6JYj6wj7O4TFLbCO/Mn/m8R+h6rYSUb3ekokRY6f/YukArN979jcW+V/S8g0eT/N3VN3kTqWbQ428m9/8k0P/1aIhF36PccEl6EhOcAUCrXKZXXWS3XKd2vc/TRBG9O5ELC17MmWubD2nKhUKZa26Ba2+D3P+4/MNCFwg59oWVeYhkzgN/JDR8deKBoD7Y+ljEjGZ0sosXVTvbc6RHirr2reNy1OXd6pJsQ+gqjk8VWFYmHrwBzW/n+uMPFiRwHB2I7ih8ciHFxIkd/3Omk5tCDV1t+2nNu5sxxpDFNx+huNhVT3/zMDz8usXC3ddaHBj1GHj/As08fwTS7Kt1HBTmyN29vdwAw+/wbwLVOJ3uAD1wi/dUH7Qei66PfyuRj4Ik9is+hglfbkbfR3cnZm7chlUWLdwmprtCohX4HUtlOcQjLYCu+fzGJH2QRKvP3UNz8bWk1qMxjGTOMThZ3kvgLI5AzFfo379UAAAAASUVORK5CYII="></textarea>
+<br>
+  <button id="encode">Create URL</button>
+  <input type="checkbox" id="clipboard" checked>
+  <label for = "clipboard">Copy URL to clipboard</label>
+</p>
+<p id="output"> </p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+<script>
+var encode = document.getElementById('encode'),
+    output = document.getElementById('output'),
+    input = document.getElementById('input');
+
+input.onclick = function() {
+	input.value='';
+}
+
+encode.onclick = function() {
+// Takes a plaintext input, compresses it with LZ and encodes in Base64.
+  var $str = LZString.compressToBase64(input.value);
+  display($str);
+}
+
+function display(value)
+{
+  //Displays the output, and copies it to the clipboard if the option is checked.
+  value=encodeURIComponent(value);
+  var $anchortext='URL';
+  if (clipboard.checked)
+  {
+    const el = document.createElement('textarea');
+    el.value = value;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+	$anchortext+=' copied to clipboard';
+  }
+  value='<a href="./#'+value+'"><strong>'+$anchortext+'</strong></a>';
+  output.innerHTML = value;
+}
+</script>
+</body>
+</html>
