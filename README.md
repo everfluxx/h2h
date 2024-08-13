@@ -1,2 +1,2 @@
 # h2h
-A simple method for passing information via the URL fragment (hash)
+A simple JavaScript method for handling information on the URL fragment (hash)
